@@ -1,0 +1,131 @@
+{% extends 'base_menu.html.twig' %}
+
+
+{% block title %}{% trans %}mostrar.usuarios{% endtrans %}{% endblock %}
+{% block head %}
+  {{ parent() }}
+{% endblock %}
+{% block pageContent %}
+<div class="loader"></div>
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>{% trans %}mostrar.usuarios{% endtrans %}</h3>
+              </div>
+
+                <form action="#">
+                  <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                      <div class="input-group">
+
+                          <input type="text" name="busqueda" class="form-control" placeholder="{% trans %}buscar.por{% endtrans %}...">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit" >{% trans %}buscar{% endtrans %}</button>
+                          </span>
+
+                      </div>
+                    </div>
+                  </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+              {% block mensajes %}
+              {{ parent() }}
+              {% endblock %}
+           <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>{% trans %}tabla {% endtrans %} <small>{% trans %}users{% endtrans %} </small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!-- Opciones superior derecha-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+{# {{ dump(tasks) }} #}
+                <table id="tabla_datatable" class="display responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                  <th>{% trans %}usuario{% endtrans %}</th>
+                  <th>{% trans %}nombre{% endtrans %}</th>
+                  <th>{% trans %}apellidos{% endtrans %}</th>
+                  <th>{% trans %}fecha.alta{% endtrans %}</th>
+                  <th>{% trans %}roles{% endtrans %}</th>
+                  <th>{% trans %}opciones{% endtrans %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+
+                  <tr>                        
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.nombre }}</td>
+                        <td>{{ user.apellidos }}</td>                        
+                        <td>{{ user.fechaAlta|date("m/d/Y h:m") }}</td>
+                        <td>{{ user.roles[0] }}</td>
+                    <td>
+                      <div class="text-center">
+
+                              <a href="{{ path('create_user')}}">
+                                <button type="button" class="btn btn-link btn-xs crear">
+                                  <i  class="fa fa-plus fa-2x" style="color: orange;"></i>
+                                </button>
+                              </a>
+                             
+                              <a href="{{ path('edit_user', {'idUser': user.id})}}">
+                                <button type="button" class="btn btn-link btn-xs editar" id="aa">
+                                  <i class="fa fa-pencil fa-2x" style="color: green;"></i>
+                                </button>
+                              </a>
+
+{#                               <a href="#">
+                                    <button type="button" class="btn btn-link btn-xs eliminar" data-toggle="modal" data-target="#myModal" id="{{user.id}}" name="{{user.username}}">
+                                      <i class="fa fa-trash fa-2x" style="color: red;"></i>                                      
+                                </button>
+                              </a> #}
+                      </div>
+
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>{% trans %}usuario{% endtrans %}</th>
+                  <th>{% trans %}nombre{% endtrans %}</th>
+                  <th>{% trans %}apellidos{% endtrans %}</th>
+                  <th>{% trans %}fecha.alta{% endtrans %}</th>
+                  <th>{% trans %}estado{% endtrans %}</th>
+                  <th>{% trans %}opciones{% endtrans %}</th>
+                </tr>
+                </tfoot>
+              </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+        <!-- page content -->
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+

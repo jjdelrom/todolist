@@ -30,7 +30,9 @@ security:
                 target: /
 
     access_control:
+        - { path: ^/todo/admin, roles: [ROLE_ADMIN ]}
         - { path: ^/todo, roles: [ROLE_USER, ROLE_ADMIN ]}
+        
 
 #        dev:
 #            pattern: ^/(_(profiler|wdt)|css|images|js)/

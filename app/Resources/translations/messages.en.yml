@@ -23,10 +23,10 @@ cerrar: Close
 reset: Reset
 
 mostrar.tareas: Show Tasks
-eliminar.tarea: Remove task
+eliminar.tarea: Remove
 tareas: Tasks
 tarea: Task
-mensaje.eliminar.tarea: Are you sure you want to delete the task?
+mensaje.eliminar.tarea: Are you sure you want to delete to ?
 
 crear.tarea: Create Task
 listar.tareas: Show Tasks
@@ -35,6 +35,7 @@ formulario: Form
 registro.creado.correctamente: Registry successfully created
 error.registro: Error creating record
 registro.eliminado.correctamente: Registry successfully remove
+registro.modificado.correctamente: Registry successfully update
 error.eliminar.registro: Error removing record
 error.modificar.estado.ajax: Error modified state
 modificacion.estado.ajax.correctamente: State successfully modified
@@ -52,3 +53,21 @@ registrarse: Register
 usuario: User
 error.sin.permiso: You do not have permission for this action
 error.tarea.no.existe: Task does not exist
+
+# Usuario
+crear.usuario: Create User
+nuevo.usuario: New User
+nombre.usuario: User name
+apellidos: Surname
+password: Password
+mostrar.usuarios: Show Users
+administrador: ROLE_ADMIN
+user: ROLE_USER
+users: Users
+roles: Roles
+fecha.alta: Register date
+editar.usuario: Edit User
+
+
+
+

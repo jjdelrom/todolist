@@ -121,7 +121,7 @@ class TodoController extends Controller
                     $task = $form->getData();
                     $this->em->persist($task);
                     $this->em->flush();
-                    $this->addFlash('success', 'registro.creado.correctamente' );
+                    $this->addFlash('success', 'registro.modificado.correctamente' );
                }        
            }else{
                 $this->addFlash('danger', 'error.sin.permiso' );

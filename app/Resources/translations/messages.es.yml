@@ -23,10 +23,10 @@ cerrar: Cerrar
 reset: Reset
 
 mostrar.tareas: Mostar Tareas
-eliminar.tarea: Eliminar tarea
+eliminar.tarea: Eliminar
 tareas: Tareas
 tarea: Tarea
-mensaje.eliminar.tarea: ¿Está seguro que quiere eliminar la tarea?
+mensaje.eliminar.tarea: ¿Está seguro que quiere eliminar a ?
 
 crear.tarea: Crear Tarea
 listar.tareas: Listas Tareas
@@ -36,6 +36,7 @@ registro.creado.correctamente: Registro creado correctamente
 error.registro: Error al crear el registro
 registro.eliminado.correctamente: Registro eliminado correctamente
 error.eliminar.registro: Se ha producido un error al eliminar el registro
+registro.modificado.correctamente: Registro modificado correctamente
 error.modificar.estado.ajax: Se ha producido un error al modificar el estado
 modificacion.estado.ajax.correctamente: Se ha modificado el estado correctamente
 
@@ -53,3 +54,17 @@ registrarse: Registrarse
 usuario: Usuario
 error.sin.permiso: No tienes permiso para esta accion
 error.tarea.no.existe: La tarea no existe
+
+# Usuario
+crear.usuario: Crear Usuario
+nuevo.usuario: Nuevo Usuario
+nombre.usuario: Nombre Usuario
+apellidos: Apellidos
+password: Password
+mostrar.usuarios: Mostrar Usuarios
+administrador: ROLE_ADMIN
+user: ROLE_USER
+users: Usuarios
+roles: Roles
+fecha.alta: Fecha de alta
+editar.usuario: Editar Usuario

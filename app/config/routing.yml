@@ -37,6 +37,7 @@ setStateAjax:
         idTask: \d+       
 
 ########    LOGIN/LOGOUT  ##########
+
 login:
     path: /
     defaults: { _controller: AppBundle:Security:loginAdmin }
@@ -52,3 +53,24 @@ formulario_registro:
     path:   /registro
     defaults: {_controller: AppBundle:User:registro }
     methods:  [POST]    
+
+########    USUARIO  ##########
+
+create_user:
+    path:  /todo/admin/{_locale}/create/user
+    defaults: { _controller: AppBundle:User:createUser, _locale: es }
+    requirements:
+        _locale: 'en|es'
+
+show_users:
+    path: /todo/admin/{_locale}/show/users
+    defaults: { _controller: AppBundle:User:showUsers,_locale: es }
+    requirements:
+        _locale: 'en|es'
+
+edit_user:
+    path: /todo/admin/{_locale}/edit/user/{idUser}
+    defaults: { _controller: AppBundle:User:editUser,_locale: es }
+    requirements:
+        _locale: 'en|es'
+        idUser: \d+  
