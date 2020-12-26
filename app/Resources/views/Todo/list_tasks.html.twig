@@ -67,7 +67,16 @@
                         <td>{{ task.nombre }}</td>
                         <td>{{ task.fechaCreacion|date("m/d/Y h:m") }}</td>                        
                         <td>{{ task.fechaTope|date("m/d/Y h:m") }}</td>
-                        <td>{{ task.estado }}</td>
+                        <td>
+                          {% if task.estado == 'SIN EMPEZAR' %}
+                              <i class="fa fa-pause-circle-o fa-2x" style="color: #256E97;"></i>
+                          {% elseif task.estado == 'INICIADA' %}
+                              <i class="fa fa fa-play-circle-o fa-2x" style="color: #5DAEDC;"></i>
+                          {% elseif task.estado == 'FINALIZADA' %}
+                              <i class="fa fa-flag-checkered fa-2x" style="color: #A6B8C2;"></i>
+                          {% endif %}
+                              &nbsp;&nbsp;&nbsp;{{ task.estado }}
+                        </td>
                     <td>
                       <div class="text-center">
 
@@ -88,7 +97,7 @@
                                       <i class="fa fa-trash fa-2x" style="color: gray;"></i>
                                 </button>
                                     <button type="button" class="btn btn-link btn-xs eliminar" data-toggle="modal" data-target="#myModal" id="{{ task.id }}" name="{{task.nombre}}">
-                                      <i class="fa fa-trash fa-2x" style="color: red;"></i>
+                                      <i class="fa fa-trash fa-2x" style="color: red;"></i>                                      
                                 </button>
                               </a>
                       </div>
