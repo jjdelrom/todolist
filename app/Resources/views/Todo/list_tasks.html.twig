@@ -49,10 +49,13 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-
+{# {{ dump(tasks) }} #}
                 <table id="tabla_datatable" class="display responsive nowrap" cellspacing="0" width="100%">
                 <thead>
                 <tr>
+                  {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
+                    <th>{% trans %}usuario{% endtrans %}</th>
+                  {% endif %} 
                   <th>{% trans %}nombre{% endtrans %}</th>
                   <th>{% trans %}fecha.creacion{% endtrans %}</th>
                   <th>{% trans %}fecha.tope{% endtrans %}</th>
@@ -64,6 +67,10 @@
                 {% for task in tasks %}
 
                   <tr>
+                        
+                        {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
+                          <td>{{ task.user.username }}</td>
+                        {% endif %}                         
                         <td>{{ task.nombre }}</td>
                         <td>{{ task.fechaCreacion|date("m/d/Y h:m") }}</td>                        
                         <td>{{ task.fechaTope|date("m/d/Y h:m") }}</td>
@@ -93,9 +100,6 @@
                               </a>
 
                               <a href="#">
-                                    <button type="button" class="btn btn-link btn-xs " >
-                                      <i class="fa fa-trash fa-2x" style="color: gray;"></i>
-                                </button>
                                     <button type="button" class="btn btn-link btn-xs eliminar" data-toggle="modal" data-target="#myModal" id="{{ task.id }}" name="{{task.nombre}}">
                                       <i class="fa fa-trash fa-2x" style="color: red;"></i>                                      
                                 </button>
@@ -108,6 +112,9 @@
                 </tbody>
                 <tfoot>
                 <tr>
+                  {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
+                    <th>{% trans %}usuario{% endtrans %}</th>
+                  {% endif %}                 
                   <th>{% trans %}nombre{% endtrans %}</th>
                   <th>{% trans %}fecha.creacion{% endtrans %}</th>
                   <th>{% trans %}fecha.tope{% endtrans %}</th>

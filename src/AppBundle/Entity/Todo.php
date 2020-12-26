@@ -50,9 +50,16 @@ class Todo
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string", length=50, columnDefinition="ENUM('INICIADA', 'FINALIZADA', SIN EMPEZAR)")
+     * @ORM\Column(name="estado", type="string", length=50, columnDefinition="ENUM('INICIADA', 'FINALIZADA', 'SIN EMPEZAR')")
      */
     private $estado;
+
+    /**
+     * Many tasks have one usuario. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tasks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -169,5 +176,30 @@ class Todo
     {
         return $this->estado;
     }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Encuesta
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \AppBundle\Entity\Usuario
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
 }
 

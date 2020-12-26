@@ -23,10 +23,17 @@ class TodoController extends Controller
 
     public function listTaskAction(Request $request)
     {
+        
         try{
-            // $em = $this->getDoctrine()->getManager();
+
+            $usuarioLogado = $this->getuser();
             $rep = $this->em->getRepository('AppBundle:Todo');
-            $tasks = $rep->findAll();
+
+            if ( in_array('ROLE_ADMIN',$usuarioLogado->getRoles()) ) {
+               $tasks = $rep->findAll();
+            }else{
+                $tasks = $rep->findBy(array('user' => $usuarioLogado->getId()) );
+            }
 
         } catch (Exception $ex) {
             echo 'Excepción capturada: ',  $ex->getMessage(), "\n";
@@ -37,14 +44,16 @@ class TodoController extends Controller
     public function createTaskAction(Request $request)
     {
         try{
+
             $task = new Todo();
             $form = $this->createForm(\AppBundle\Form\TodoType::class, $task);
             $form->handleRequest($request);
-            // $em = $this->getDoctrine()->getManager();
             $rep = $this->em->getRepository('AppBundle:Todo');
 
-            if($form->isSubmitted() && $form->isValid()){
-                // $em = $this->getDoctrine()->getManager();
+            if($form->isSubmitted() && $form->isValid()){                
+                $idLogado = $this->getuser()->getId();
+                $user = $this->em->getRepository('AppBundle:User')->find($idLogado);
+                $task->setUser($user);
                 $this->em->persist($task);
                 $this->em->flush();
                 $this->addFlash('success', 'registro.creado.correctamente' );
@@ -53,7 +62,14 @@ class TodoController extends Controller
                 $this->addFlash('danger', 'error.registro' );
                 echo 'Excepción capturada: ',  $ex->getMessage(), "\n";
         }
-        $tasks = $rep->findAll();
+
+        $usuarioLogado = $this->getuser();
+        if ( in_array('ROLE_ADMIN',$usuarioLogado->getRoles()) ) {
+           $tasks = $rep->findAll();
+        }else{
+            $tasks = $rep->findBy(array('user' => $usuarioLogado->getId()) );
+        }
+
         return $this->render('Todo/create_task.html.twig', array('form' => $form->createView(), 'tasks'=>$tasks ));
 
     }
@@ -61,15 +77,23 @@ class TodoController extends Controller
     public function removeTaskAction(Request $request, int $idTask){
 
         try{
-            // $m = $this->getDoctrine()->getManager();
+
+            $usuarioLogado = $this->getuser();
+            
             $task = $this->em->getRepository('AppBundle:Todo')->find($idTask);
             if(!$task){
                 throw $this->createNotFoundException('La tarea con id: '.$idTask.' no existe.');
             }
 
-            $this->em->remove($task);
-            $this->em->flush();
-            $this->addFlash('success', 'registro.eliminado.correctamente' );
+            if($task->getUser()->getId() == $usuarioLogado->getId() ){
+                $this->em->remove($task);
+                $this->em->flush();
+                $this->addFlash('success', 'registro.eliminado.correctamente' );
+            }else{
+                $this->addFlash('danger', 'error.sin.permiso' );
+            }
+
+
             return $this->redirectToRoute('list_tasks');
         }
         catch (Exception $ex) {
@@ -88,14 +112,30 @@ class TodoController extends Controller
        $form->handleRequest($request);
        $rep = $this->em->getRepository('AppBundle:Todo');
 
-       if($form->isSubmitted() && $form->isValid()){
-            $task = $form->getData();
-            // $man = $this->getDoctrine()->getManager();
-            $this->em->persist($task);
-            $this->em->flush();
-            $this->addFlash('success', 'registro.creado.correctamente' );
+       $usuarioLogado = $this->getuser();
+
+       if($task !== null){
+           // if($task->getUser()->getId() == $usuarioLogado->getId() || in_array('ROLE_ADMIN',$usuarioLogado->getRoles())){
+           if($task->getUser()->getId() == $usuarioLogado->getId() ){
+               if($form->isSubmitted() && $form->isValid()){
+                    $task = $form->getData();
+                    $this->em->persist($task);
+                    $this->em->flush();
+                    $this->addFlash('success', 'registro.creado.correctamente' );
+               }        
+           }else{
+                $this->addFlash('danger', 'error.sin.permiso' );
+           }
+       }else{
+            $this->addFlash('danger', 'error.sin.permiso' );
        }
-        $tasks = $rep->findAll();
+      
+       if ( in_array('ROLE_ADMIN',$usuarioLogado->getRoles()) ) {
+          $tasks = $rep->findAll();
+       }else{
+           $tasks = $rep->findBy(array('user' => $usuarioLogado->getId()) );
+       }
+
       }
       catch(Excepcition $ex){
        echo 'Excepción capturada: ',  $ex->getMessage(), "\n";
@@ -108,29 +148,39 @@ class TodoController extends Controller
         if($request->isXmlHttpRequest()){
 
             $rep = $this->em->getRepository('AppBundle:Todo');
-            $task = $rep->find($idTask);
-            if($task){
-                $state = $task->getEstado();
+            $task = $rep->find($idTask);            
+            $usuarioLogado = $this->getuser();
 
-                switch ($state) {
-                    case $this->todo::STATUS_NOINICIADA:
-                        $task->setEstado($this->todo::STATUS_INICIADA);
-                        break;
-                    case $this->todo::STATUS_INICIADA:
-                        $task->setEstado($this->todo::STATUS_FINALIZADA);
-                        break;
-                    case $this->todo::STATUS_FINALIZADA:
-                        $task->setEstado($this->todo::STATUS_NOINICIADA);
-                        break;
-                }                
-                $this->em->persist($task);
-                $this->em->flush(); 
+            if($task->getUser()->getId() == $usuarioLogado->getId() ){
 
-                $result = array('error' => 0, 'msg' => 'modificacion.estado.ajax.correctamente','state' => $task->getEstado() );
+
+                if($task){
+                    $state = $task->getEstado();
+
+                    switch ($state) {
+                        case $this->todo::STATUS_NOINICIADA:
+                            $task->setEstado($this->todo::STATUS_INICIADA);
+                            break;
+                        case $this->todo::STATUS_INICIADA:
+                            $task->setEstado($this->todo::STATUS_FINALIZADA);
+                            break;
+                        case $this->todo::STATUS_FINALIZADA:
+                            $task->setEstado($this->todo::STATUS_NOINICIADA);
+                            break;
+                    }                
+                    $this->em->persist($task);
+                    $this->em->flush(); 
+
+                    $result = array('error' => 0, 'msg' => 'modificacion.estado.ajax.correctamente','state' => $task->getEstado() );
+                }else{
+                    $result = array('error' => 1, 'msg' => 'error.modificar.estado.ajax' );
+                } 
+
             }else{
-                $result = array('error' => 1, 'msg' => 'error.modificar.estado.ajax' );
-            }            
-            return new JsonResponse($result);
+                $result = array('error' => 1, 'msg' => 'No tiene permiso para editar esa tarea' );
+            }
+
+                return new JsonResponse($result);
         }
         else {
               $result = array('error' => 1, 'msg' => 'error.peticion.noajax' );

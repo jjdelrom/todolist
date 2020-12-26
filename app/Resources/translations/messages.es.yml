@@ -43,8 +43,13 @@ error.peticion.noajax: Solo peticiones ajax
 
 administrar: Administrar
 
-INICIADA: INITIATED
-SIN EMPEZAR: UNINITIATED
-FINALIZADA: FINISH
+INICIADA: INICIADA
+SIN EMPEZAR: SIN EMPEZAR
+FINALIZADA: FINALIZADA
 
 modificar.estado: Modificar estado por ajax
+
+registrarse: Registrarse
+usuario: Usuario
+error.sin.permiso: No tienes permiso para esta accion
+error.tarea.no.existe: La tarea no existe

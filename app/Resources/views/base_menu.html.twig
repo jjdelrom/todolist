@@ -92,10 +92,11 @@
         $(".fa").click(function(){
           let id  = $(this).attr("data-id");
           let cls = $(this).attr("data-class");
+          let path = window.location.href.split('todo');
 
            $.ajax({
                  dataType: 'json',         
-                 url:   '/setState/'+id,
+                 url:   path[0]+'todo/setState/'+id,
                  type:  'POST',
                  beforeSend: function () {
 
@@ -127,6 +128,7 @@
                                break;
                       } 
                     }else{
+                      alert(response.msg);
                       console.log(response.msg);
                     }
                  },
@@ -158,7 +160,7 @@
                   <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar">
                     {% trans %}cerrar{% endtrans %}</button>
 
-                  <a id="enlace_eliminar" href="/{{ urlActual[1] }}/remove/task/">
+                  <a id="enlace_eliminar" href="/{{ urlActual[1] }}/{{ urlActual[2] }}/remove/task/">
                     <button type="submit" class="btn btn-primary" name="aceptar" id="aceptar" >
                       {% trans %}aceptar{% endtrans %}
                     </button>
@@ -244,8 +246,7 @@ $(document).ready(function() {
     $(".eliminar").on('click', function() {
       $("#nombre").html($(this).attr("name"));
       var hrf = $("#enlace_eliminar").attr("href").split("/");
-      // var url = "/admin/"+hrf[2]+"/remove/task/"+$(this).attr("id");
-      var url = "/"+hrf[1]+"/remove/task/"+$(this).attr("id");
+      var url = "/"+hrf[1]+"/"+hrf[2]+"/remove/task/"+$(this).attr("id");
       
       $("#enlace_eliminar").attr("href",url);
     });

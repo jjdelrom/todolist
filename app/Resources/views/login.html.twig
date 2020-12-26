@@ -25,27 +25,13 @@ function f3(){
     $('.f1').addClass('hidden');
 }
 
-function enviarFormularioRecordar(){
-    var email = $('#email').val();
-    if(email != ''){
-        $('#formulario2').attr('action', '/recuperarPassword/'+email);
-        $('#formulario2').submit();
-    }
-    else{
-        $('.mensaje').append( '<div class="alert alert-danger " role="alert"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Email no puede estar vacío. </div>');
-            ocultarMensajes();
-    }
-
-}
 function enviarFormularioRegistro(){
-    var email = $('#email2').val();
     var nombre_usuario = $('#nombre_usuario').val();
     var pass = $('#pass').val();
     var nombre = $('#nombre').val();
     var apellidos = $('#apellidos').val();
-    var telefono = $('#telefono').val();
 
-    if(email != '' ||  nombre_usuario != '' || pass != '' || nombre != '' || apellidos != '' || telefono != '' ){
+    if( nombre_usuario != '' || pass != '' || nombre != '' || apellidos != '' ){
         $('#formulario3').attr('action', '/registro');
         $('#formulario3').submit();
     }
@@ -58,10 +44,6 @@ function enviarFormularioRegistro(){
 </script>
 {% endblock %}
 
-{#{% block stylesheets %}
-    {{ parent() }}
-<link rel="stylesheet" href="{{ asset('css/custom.css')}} ">
-{% endblock %}#}
 
 {% block classBody %}class="login_body"{% endblock %}
 
@@ -77,14 +59,7 @@ function enviarFormularioRegistro(){
 
             {%  if mensaje is defined %}
 
-                    {%  if mensaje == 'RESTAURADA' %}
-                                  <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-check"></i> Recuperar password</h4>
-                                    Se ha enviado la nueva contraseña a su email.
-                                  </div>
-
-                    {%  elseif mensaje == 'USUARIO CREADO' %}
+                    {%  if mensaje == 'USUARIO CREADO' %}
                                   <div class="alert alert-success alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                     <h4><i class="icon fa fa-check"></i> Registro correcto</h4>
@@ -102,18 +77,13 @@ function enviarFormularioRegistro(){
                                     <h4><i class="icon fa fa-ban"></i> Error!</h4>
                                     No se ha podido registrar el usuario, nombre de usuario ya existe.
                                   </div>
-                    {% elseif mensaje == 'EMAIL EXISTE' %}
+                    {% elseif mensaje == 'FALTA ALGUN CAMPO' %}
                                   <div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                     <h4><i class="icon fa fa-ban"></i> Error!</h4>
-                                    No se ha podido registrar el usuario, el email ya existe.
+                                    Todos los campos son obligatorios.
                                   </div>
-                    {% elseif mensaje == 'NO RESTAURADA' %}
-                                  <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
-                                    No se ha podido restaurar la contraseña, asegurese de haber introducido correctamente los datos.
-                                  </div>
+
                     {%  endif %}
 
 
@@ -139,14 +109,8 @@ function enviarFormularioRegistro(){
 
                     <div>
                     <button type="reset"  onclick="f3()">{% trans %}registrarse{% endtrans %}</button>
-                        <button type="reset"  class="f1" onclick="f1()">Recuperar Password</button>
-                       {# <button type="reset"  class="f2 hidden" onclick="f2()">Volver al Login</button>#}
                     	<button type="submit">{% trans %}enviar{% endtrans %}</button>
                     </div>
-                  {# <div class="text-center"><a href="{{ path('formulario_registro', { 'tipo': 'registro'} ) }}">{% trans %}Registrarse{% endtrans %}</a></div>
-                  #}
-
-
 
                     <div class="clearfix"></div>
                     <div class="separator">
@@ -157,36 +121,6 @@ function enviarFormularioRegistro(){
                 <!-- form -->
             </section>
             <!-- content -->
-
-
-            <section class="login_content f2 hidden">
-                {% if error %}
-                    <div class="alert alert-danger " role="alert"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>  {{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-                <form action="{{ path('recuperar_password', { 'email': 'aljsbgj'} ) }}" method="post" id="formulario2">
-                   <h1 class="h1_login_administrador">Recordar password</h1>
-
-                      <div class="form-group has-feedback ">
-                        <input type="email" class="form-control" placeholder="Email" id="email"  required="required">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                      </div>
-                    <div>
-                        <button type="reset"  class="f1" onclick="f1()">Recuperar Password</button>
-                        <button type="reset"  class="f2 hidden" onclick="f2()">Volver al Login</button>
-                        <button type="reset" onclick="enviarFormularioRecordar()">Enviar</button>
-
-                    </div>
-                  {# <div class="text-center"><a href="{{ path('formulario_registro', { 'tipo': 'registro'} ) }}">{% trans %}Registrarse{% endtrans %}</a></div>
-                  #}
-
-                    <div class="clearfix"></div>
-                    <div class="separator">
-                        <div class="clearfix"></div>
-                        <br />
-                    </div>
-                </form>
-                <!-- form -->
-            </section>
 
             <section class="login_content f3 hidden">
                 {% if error %}
@@ -213,15 +147,6 @@ function enviarFormularioRegistro(){
                         <input type="text" class="form-control" placeholder="Apellidos *" id="apellidos" name="apellidos" required="required">
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                       </div>
-                      <div class="form-group has-feedback ">
-                        <input type="email" class="form-control" placeholder="Email *" id="email2" name="email2"  required="required">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                      </div>
-                      <div class="form-group has-feedback ">
-                        <input type="text" name"telefono" class="form-control" placeholder="Telefono" id="telefono" >
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                      </div>
-
                     <div>
                         <button type="reset"  class="f3" onclick="f2()">Volver al login</button>
 

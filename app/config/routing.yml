@@ -3,35 +3,52 @@
 #    type: annotation
 
 list_tasks:
-    path: /{_locale}/list/tasks
+    path: /todo/{_locale}/list/tasks
     defaults: { _controller: AppBundle:Todo:listTask,_locale: es }
     requirements:
         _locale: 'en|es'
 #        m: \d+
 
 create_task:
-    path: /{_locale}/create/task
+    path: /todo/{_locale}/create/task
     defaults: { _controller: AppBundle:Todo:createTask,_locale: es }
     requirements:
         _locale: 'en|es'
 
 remove_task:
-    path: /{_locale}/remove/task/{idTask}
+    path: /todo/{_locale}/remove/task/{idTask}
     defaults: { _controller: AppBundle:Todo:removeTask,_locale: es }
     requirements:
         _locale: 'en|es'
         idTask: \d+    
 
 edit_task:
-    path: /{_locale}/edit/task/{idTask}
+    path: /todo/{_locale}/edit/task/{idTask}
     defaults: { _controller: AppBundle:Todo:editTask,_locale: es }
     requirements:
         _locale: 'en|es'
         idTask: \d+          
 
 setStateAjax:
-    path:   /setState/{idTask}
+    path:   /todo/setState/{idTask}
     defaults: { _controller: AppBundle:Todo:setStateAjax, _locale: es }
     requirements:
         _locale: 'en|es' 
         idTask: \d+       
+
+########    LOGIN/LOGOUT  ##########
+login:
+    path: /
+    defaults: { _controller: AppBundle:Security:loginAdmin }
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout        
+
+
+formulario_registro:
+    path:   /registro
+    defaults: {_controller: AppBundle:User:registro }
+    methods:  [POST]    

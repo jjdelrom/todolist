@@ -47,3 +47,8 @@ SIN EMPEZAR: UNINITIATED
 FINALIZADA: FINISH
 
 modificar.estado: Change state by ajax
+
+registrarse: Register
+usuario: User
+error.sin.permiso: You do not have permission for this action
+error.tarea.no.existe: Task does not exist
