@@ -127,13 +127,13 @@
                         <td>{{ task.fechaTope|date("m/d/Y h:m") }}</td>
                         <td>
                           {% if task.estado == 'SIN EMPEZAR' %}
-                              <i class="fa fa-pause-circle-o fa-2x" style="color: #256E97;"></i>
+                              <i  data-class="SIN EMPEZAR" data-id="{{ task.id }}" class="fa fa-pause-circle-o fa-2x" title="{% trans %}modificar.estado{% endtrans %}" style=" cursor: pointer; color: #256E97;"></i>
                           {% elseif task.estado == 'INICIADA' %}
-                              <i class="fa fa fa-play-circle-o fa-2x" style="color: #5DAEDC;"></i>
+                              <i data-class="INICIADA" data-id="{{ task.id }}" class="fa fa fa-play-circle-o fa-2x" title="{% trans %}modificar.estado{% endtrans %}" style=" cursor: pointer; color: #256E97;"></i>
                           {% elseif task.estado == 'FINALIZADA' %}
-                              <i class="fa fa-flag-checkered fa-2x" style="color: #A6B8C2;"></i>
+                              <i data-class="FINALIZADA" data-id="{{ task.id }}" class="fa fa-flag-checkered fa-2x" title="{% trans %}modificar.estado{% endtrans %}" style=" cursor: pointer; color: #256E97;"></i>
                           {% endif %}
-                              &nbsp;&nbsp;&nbsp;{{ task.estado }}
+                              &nbsp;&nbsp;&nbsp;<span data-textoid="{{ task.id }}" >{{ task.estado }}</span>
                         </td>
                     <td>
                       <div class="text-center">
@@ -184,11 +184,12 @@
           </div>
         </div>
         <!-- page content -->
-
-      {% set urlActual =  path(app.request.attributes.get('_route'),  app.request.attributes.get('_route_params'))  %}
-      {% set urlActual = urlActual|split('/') %}
-
 {% endblock %}
 
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
 
 

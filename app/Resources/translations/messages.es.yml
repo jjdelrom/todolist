@@ -35,9 +35,16 @@ formulario: Formulario
 registro.creado.correctamente: Registro creado correctamente
 error.registro: Error al crear el registro
 registro.eliminado.correctamente: Registro eliminado correctamente
+error.eliminar.registro: Se ha producido un error al eliminar el registro
+error.modificar.estado.ajax: Se ha producido un error al modificar el estado
+modificacion.estado.ajax.correctamente: Se ha modificado el estado correctamente
+
+error.peticion.noajax: Solo peticiones ajax
 
 administrar: Administrar
 
 INICIADA: INITIATED
 SIN EMPEZAR: UNINITIATED
 FINALIZADA: FINISH
+
+modificar.estado: Modificar estado por ajax

@@ -7,15 +7,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Todo;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TodoController extends Controller
 {
 
+    private $todo;
+    private $em;
+
+    public function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+        $this->todo = new Todo();
+    }         
+
     public function listTaskAction(Request $request)
     {
         try{
-            $em = $this->getDoctrine()->getManager();
-            $rep = $em->getRepository('AppBundle:Todo');
+            // $em = $this->getDoctrine()->getManager();
+            $rep = $this->em->getRepository('AppBundle:Todo');
             $tasks = $rep->findAll();
 
         } catch (Exception $ex) {
@@ -30,13 +40,13 @@ class TodoController extends Controller
             $task = new Todo();
             $form = $this->createForm(\AppBundle\Form\TodoType::class, $task);
             $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $rep = $em->getRepository('AppBundle:Todo');
+            // $em = $this->getDoctrine()->getManager();
+            $rep = $this->em->getRepository('AppBundle:Todo');
 
             if($form->isSubmitted() && $form->isValid()){
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($task);
-                $em->flush();
+                // $em = $this->getDoctrine()->getManager();
+                $this->em->persist($task);
+                $this->em->flush();
                 $this->addFlash('success', 'registro.creado.correctamente' );
             }
         }catch (Exception $ex) {
@@ -51,19 +61,19 @@ class TodoController extends Controller
     public function removeTaskAction(Request $request, int $idTask){
 
         try{
-            $m = $this->getDoctrine()->getManager();
-            $task = $m->getRepository('AppBundle:Todo')->find($idTask);
+            // $m = $this->getDoctrine()->getManager();
+            $task = $this->em->getRepository('AppBundle:Todo')->find($idTask);
             if(!$task){
                 throw $this->createNotFoundException('La tarea con id: '.$idTask.' no existe.');
             }
 
-            $m->remove($task);
-            $m->flush();
+            $this->em->remove($task);
+            $this->em->flush();
             $this->addFlash('success', 'registro.eliminado.correctamente' );
             return $this->redirectToRoute('list_tasks');
         }
         catch (Exception $ex) {
-            $this->addFlash('danger', 'Error al eliminar el registro' );
+            $this->addFlash('danger', 'error.eliminar.registro' );
             echo 'Excepción capturada: ',  $ex->getMessage(), "\n";
         }
     }
@@ -71,21 +81,20 @@ class TodoController extends Controller
     public function editTaskAction(Request $request, int $idTask){
 
       try{
-       $m = $this->getDoctrine()->getManager();
-       $task = $m->getRepository('AppBundle:Todo')->find($idTask);
+
+       $task = $this->em->getRepository('AppBundle:Todo')->find($idTask);
 
        $form = $this->createForm(\AppBundle\Form\TodoType::class, $task);
        $form->handleRequest($request);
-       $rep = $m->getRepository('AppBundle:Todo');
+       $rep = $this->em->getRepository('AppBundle:Todo');
 
        if($form->isSubmitted() && $form->isValid()){
             $task = $form->getData();
-            $man = $this->getDoctrine()->getManager();
-            $man->persist($task);
-            $man->flush();
+            // $man = $this->getDoctrine()->getManager();
+            $this->em->persist($task);
+            $this->em->flush();
             $this->addFlash('success', 'registro.creado.correctamente' );
        }
-        $rep = $m->getRepository('AppBundle:Todo');
         $tasks = $rep->findAll();
       }
       catch(Excepcition $ex){
@@ -94,14 +103,46 @@ class TodoController extends Controller
       return $this->render('Todo/edit_task.html.twig', array('form' => $form->createView(), 'tasks'=>$tasks) );
      }
 
+    public function setStateAjaxAction(Request $request, int $idTask){
 
-    public function changeLocaleAction(Request $request)
-    {
+        if($request->isXmlHttpRequest()){
+
+            $rep = $this->em->getRepository('AppBundle:Todo');
+            $task = $rep->find($idTask);
+            if($task){
+                $state = $task->getEstado();
+
+                switch ($state) {
+                    case $this->todo::STATUS_NOINICIADA:
+                        $task->setEstado($this->todo::STATUS_INICIADA);
+                        break;
+                    case $this->todo::STATUS_INICIADA:
+                        $task->setEstado($this->todo::STATUS_FINALIZADA);
+                        break;
+                    case $this->todo::STATUS_FINALIZADA:
+                        $task->setEstado($this->todo::STATUS_NOINICIADA);
+                        break;
+                }                
+                $this->em->persist($task);
+                $this->em->flush(); 
+
+                $result = array('error' => 0, 'msg' => 'modificacion.estado.ajax.correctamente','state' => $task->getEstado() );
+            }else{
+                $result = array('error' => 1, 'msg' => 'error.modificar.estado.ajax' );
+            }            
+            return new JsonResponse($result);
+        }
+        else {
+              $result = array('error' => 1, 'msg' => 'error.peticion.noajax' );
+                return new JsonResponse($result);
+        }
+    }
+
+    public function changeLocaleAction(Request $request) {
 
         $locale = $request->getLocale();
         $request->setLocale($locale);
-    
-    
+        
         return $this->render('Todo/list_tasks.html.twig', array('tasks'=>$tasks ));     
     }   
 

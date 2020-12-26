@@ -69,20 +69,20 @@
                         <td>{{ task.fechaTope|date("m/d/Y h:m") }}</td>
                         <td>
                           {% if task.estado == 'SIN EMPEZAR' %}
-                              <i class="fa fa-pause-circle-o fa-2x" style="color: #256E97;"></i>
+                              <i  data-class="SIN EMPEZAR" data-id="{{ task.id }}" class="fa fa-pause-circle-o fa-2x" title="{% trans %}modificar.estado{% endtrans %}" style=" cursor: pointer; color: #256E97;"></i>
                           {% elseif task.estado == 'INICIADA' %}
-                              <i class="fa fa fa-play-circle-o fa-2x" style="color: #5DAEDC;"></i>
+                              <i data-class="INICIADA" data-id="{{ task.id }}" class="fa fa fa-play-circle-o fa-2x" title="{% trans %}modificar.estado{% endtrans %}" style=" cursor: pointer; color: #256E97;"></i>
                           {% elseif task.estado == 'FINALIZADA' %}
-                              <i class="fa fa-flag-checkered fa-2x" style="color: #A6B8C2;"></i>
+                              <i data-class="FINALIZADA" data-id="{{ task.id }}" class="fa fa-flag-checkered fa-2x" title="{% trans %}modificar.estado{% endtrans %}" style=" cursor: pointer; color: #256E97;"></i>
                           {% endif %}
-                              &nbsp;&nbsp;&nbsp;{{ task.estado }}
+                              &nbsp;&nbsp;&nbsp;<span data-textoid="{{ task.id }}" >{{ task.estado }}</span>
                         </td>
                     <td>
                       <div class="text-center">
 
                               <a href="{{ path('create_task')}}">
                                 <button type="button" class="btn btn-link btn-xs crear">
-                                  <i class="fa fa-plus fa-2x" style="color: orange;"></i>
+                                  <i  class="fa fa-plus fa-2x" style="color: orange;"></i>
                                 </button>
                               </a>
                              
@@ -135,5 +135,6 @@
 
 {% block javascripts %}
     {{ parent() }}
+
 {% endblock %}
 

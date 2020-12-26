@@ -85,6 +85,59 @@
             {% endfor %}
             <script> ocultarMensajes(); </script>
 
+    <script type="text/javascript">
+
+      $( document ).ready(function() {
+
+        $(".fa").click(function(){
+          let id  = $(this).attr("data-id");
+          let cls = $(this).attr("data-class");
+
+           $.ajax({
+                 dataType: 'json',         
+                 url:   '/setState/'+id,
+                 type:  'POST',
+                 beforeSend: function () {
+
+                 },
+                 success:  function (response) {
+                  if(response.error == '0'){
+
+                      switch (response.state) {
+                          case 'SIN EMPEZAR':
+                              $("[data-id="+id+"]").attr("data-class", 'INICIADA');
+                              $("[data-id="+id+"]").removeClass('fa-play-circle-o fa-flag-checkered');
+                              $("[data-id="+id+"]").addClass('fa-pause-circle-o');
+                              $("[data-textoid="+id+"]").html(response.state);
+                              break;
+                          case 'INICIADA':
+                              $("[data-id="+id+"]").attr("data-class", 'FINALIZADA');
+                              $("[data-id="+id+"]").removeClass('fa-flag-checkered fa-pause-circle-o');
+                              $("[data-id="+id+"]").addClass('fa-play-circle-o');                        
+                              $("[data-textoid="+id+"]").html(response.state);
+                              break;
+                          case 'FINALIZADA':
+                              $("[data-id="+id+"]").attr("data-class", 'SIN EMPEZAR');
+                              $("[data-id="+id+"]").removeClass('fa-pause-circle-o fa-pause-circle-o');
+                              $("[data-id="+id+"]").addClass('fa-flag-checkered');                         
+                              $("[data-textoid="+id+"]").html(response.state);
+                              break;
+                          default:
+                               
+                               break;
+                      } 
+                    }else{
+                      console.log(response.msg);
+                    }
+                 },
+           });  
+
+        });
+      });
+
+    </script>
+
+
       {% set urlActual =  path(app.request.attributes.get('_route'),  app.request.attributes.get('_route_params'))  %}
 
 

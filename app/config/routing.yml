@@ -28,3 +28,10 @@ edit_task:
     requirements:
         _locale: 'en|es'
         idTask: \d+          
+
+setStateAjax:
+    path:   /setState/{idTask}
+    defaults: { _controller: AppBundle:Todo:setStateAjax, _locale: es }
+    requirements:
+        _locale: 'en|es' 
+        idTask: \d+       

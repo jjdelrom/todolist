@@ -35,9 +35,15 @@ formulario: Form
 registro.creado.correctamente: Registry successfully created
 error.registro: Error creating record
 registro.eliminado.correctamente: Registry successfully remove
+error.eliminar.registro: Error removing record
+error.modificar.estado.ajax: Error modified state
+modificacion.estado.ajax.correctamente: State successfully modified
+error.peticion.noajax: Only ajax request
 
 administrar: Administration
 
 INICIADA: INITIATED
 SIN EMPEZAR: UNINITIATED
 FINALIZADA: FINISH
+
+modificar.estado: Change state by ajax
