@@ -1,3 +1,30 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+#app:
+#    resource: '@AppBundle/Controller/'
+#    type: annotation
+
+list_tasks:
+    path: /{_locale}/list/tasks
+    defaults: { _controller: AppBundle:Todo:listTask,_locale: es }
+    requirements:
+        _locale: 'en|es'
+#        m: \d+
+
+create_task:
+    path: /{_locale}/create/task
+    defaults: { _controller: AppBundle:Todo:createTask,_locale: es }
+    requirements:
+        _locale: 'en|es'
+
+remove_task:
+    path: /{_locale}/remove/task/{idTask}
+    defaults: { _controller: AppBundle:Todo:removeTask,_locale: es }
+    requirements:
+        _locale: 'en|es'
+        idTask: \d+    
+
+edit_task:
+    path: /{_locale}/edit/task/{idTask}
+    defaults: { _controller: AppBundle:Todo:editTask,_locale: es }
+    requirements:
+        _locale: 'en|es'
+        idTask: \d+          

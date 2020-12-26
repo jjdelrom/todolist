@@ -1,0 +1,43 @@
+#barra_superior
+cerrar.sesion: Cerrar sesion
+español: Español
+ingles: Inglés
+idiomas: Idiomas
+
+#menu_taleral
+bienvenido: Bienvenido
+
+#comunes
+opciones: Opciones
+nombre: Nombre
+fecha.creacion: Fecha creacion
+fecha.tope: Fecha tope
+fecha.tope.label: Fecha tope ('dd/MM/yyyy')
+tabla: Tabla
+estado: Estado
+buscar: Buscar
+buscar.por: Buscar por
+aceptar: Aceptar
+enviar: Enviar
+cerrar: Cerrar
+reset: Reset
+
+mostrar.tareas: Mostar Tareas
+eliminar.tarea: Eliminar tarea
+tareas: Tareas
+tarea: Tarea
+mensaje.eliminar.tarea: ¿Está seguro que quiere eliminar la tarea?
+
+crear.tarea: Crear Tarea
+listar.tareas: Listas Tareas
+formulario: Formulario
+
+registro.creado.correctamente: Registro creado correctamente
+error.registro: Error al crear el registro
+registro.eliminado.correctamente: Registro eliminado correctamente
+
+administrar: Administrar
+
+INICIADA: INITIATED
+SIN EMPEZAR: UNINITIATED
+FINALIZADA: FINISH

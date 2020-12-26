@@ -1,0 +1,43 @@
+#Barra_superior
+cerrar.sesion: Sign out
+español: Spanish
+ingles: English
+idiomas: Languages
+
+#menu_taleral
+bienvenido: Welcome
+
+#comunes
+opciones: Options
+nombre: Name
+fecha.creacion: Created date
+fecha.tope: Finish date
+fecha.tope.label: Finish date ('dd/MM/yyyy')
+tabla: Table
+estado: State
+buscar: Search
+buscar.por: Search by
+aceptar: Accept
+enviar: Send
+cerrar: Close
+reset: Reset
+
+mostrar.tareas: Show Tasks
+eliminar.tarea: Remove task
+tareas: Tasks
+tarea: Task
+mensaje.eliminar.tarea: Are you sure you want to delete the task?
+
+crear.tarea: Create Task
+listar.tareas: Show Tasks
+formulario: Form
+
+registro.creado.correctamente: Registry successfully created
+error.registro: Error creating record
+registro.eliminado.correctamente: Registry successfully remove
+
+administrar: Administration
+
+INICIADA: INITIATED
+SIN EMPEZAR: UNINITIATED
+FINALIZADA: FINISH

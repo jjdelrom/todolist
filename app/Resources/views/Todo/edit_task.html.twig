@@ -1,0 +1,185 @@
+{% extends 'base_menu.html.twig' %}
+
+
+{% block title %}{% trans %}crear.tarea{% endtrans %}{% endblock %}
+{% block head %}
+  {{ parent() }}
+{% endblock %}
+{% block pageContent %}
+<div class="loader"></div>  {# loader #}
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>{% trans %}crear.tarea{% endtrans %}</h3>
+              </div>
+
+                <form action="#">
+                  <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                      <div class="input-group">
+
+                          <input type="text" name="busqueda" class="form-control" placeholder="{% trans %}buscar.por{% endtrans %}...">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit" >{% trans %}buscar{% endtrans %}</button>
+                          </span>
+
+                      </div>
+                    </div>
+                  </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+              {% block mensajes %}
+              {{ parent() }}
+              {% endblock %}
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>{% trans %}formulario {% endtrans %} <small>{% trans %}crear.tarea{% endtrans %}</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!-- Opciones superior derecha-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+         		       {{ form_start(form, { 'enctype':"multipart/form-data",  'attr' : {'role' : 'form'} }) }}
+
+                      <div class="form-group">
+                        {{ form_label(form.nombre)}}
+                         {{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger">{{ form_errors(form.nombre)}}</span>
+                      </div>
+{#                       <div class="form-group">
+                        {{ form_label(form.fechaCreacion)}}
+                         {{ form_widget(form.fechaCreacion, { 'attr': {'class': 'form-control js-switch' } }) }}
+                        <span class="text-danger">{{ form_errors(form.fechaCreacion)}}</span>
+                      </div> #}
+                      <div class="form-group">
+                        {{ form_label(form.fechaTope)}}
+                         {{ form_widget(form.fechaTope, { 'attr': {'class': '' } }) }}
+                        <span class="text-danger">{{ form_errors(form.fechaTope)}}</span>
+                      </div>                                            
+                      <div class="form-group">
+                        {{ form_label(form.estado)}}
+                         {{ form_widget(form.estado, { 'attr': {'class': 'form-control js-switch' } }) }}
+                        <span class="text-danger">{{ form_errors(form.estado)}}</span>
+                      </div>
+                      <div class="ln_solid"></div>
+            					<!--  Aceptar y Reset en la misma línea  -->
+            					<div class="btn-toolbar" role="toolbar">
+            					  <div class="btn-group">
+            						<div class="btn pull-right">
+            							 {{ form_widget(form.reset)}}
+            							<span class="text-danger">{{ form_errors(form)}}</span>
+            						</div>
+            					  </div>
+            						<div class="btn pull-left">
+            							 {{ form_widget(form.aceptar)}}
+            							<span class="text-danger">{{ form_errors(form)}}</span>
+            						</div>
+            					</div><!-- # FIN Aceptar y Reset -->
+            				{{ form_end(form) }}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+           <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>{% trans %}tabla {% endtrans %} <small>{% trans %}tareas{% endtrans %} </small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <!-- Opciones superior derecha-->
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                <table id="tabla_datatable" class="display responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                  <th>{% trans %}nombre{% endtrans %}</th>
+                  <th>{% trans %}fecha.creacion{% endtrans %}</th>
+                  <th>{% trans %}fecha.tope{% endtrans %}</th>
+                  <th>{% trans %}estado{% endtrans %}</th>
+                  <th>{% trans %}opciones{% endtrans %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+
+                  <tr>
+                        <td>{{ task.nombre }}</td>
+                        <td>{{ task.fechaCreacion|date("m/d/Y h:m") }}</td>
+                        <td>{{ task.fechaTope|date("m/d/Y h:m") }}</td>
+                        <td>{{ task.estado }}</td>
+                    <td>
+                      <div class="text-center">
+
+                              <a href="{{ path('create_task')}}">
+                                <button type="button" class="btn btn-link btn-xs crear">
+                                  <i class="fa fa-plus fa-2x" style="color: orange;"></i>
+                                </button>
+                              </a>
+                              <a href="{{ path('edit_task', {'idTask': task.id})}}">
+                                <button type="button" class="btn btn-link btn-xs editar" id="aa">
+                                  <i class="fa fa-pencil fa-2x" style="color: green;"></i>
+                                </button>
+                              </a>
+
+                              <a href="#">
+                               <button type="button" class="btn btn-link btn-xs " >
+                                      <i class="fa fa-trash fa-2x" style="color: gray;"></i>
+                                </button>
+                                <button type="button" class="btn btn-link btn-xs eliminar" data-toggle="modal" data-target="#myModal" id="{{ task.id }}" name="{{task.nombre}}">
+                                      <i class="fa fa-trash fa-2x" style="color: red;"></i>
+                                </button>
+                              </a>
+                      </div>
+
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>{% trans %}nombre{% endtrans %}</th>
+                  <th>{% trans %}fecha.creacion{% endtrans %}</th>
+                  <th>{% trans %}fecha.tope{% endtrans %}</th>
+                  <th>{% trans %}estado{% endtrans %}</th>
+                  <th>{% trans %}opciones{% endtrans %}</th>                  
+                </tr>
+                </tfoot>
+              </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+        <!-- page content -->
+
+      {% set urlActual =  path(app.request.attributes.get('_route'),  app.request.attributes.get('_route_params'))  %}
+      {% set urlActual = urlActual|split('/') %}
+
+{% endblock %}
+
+
+

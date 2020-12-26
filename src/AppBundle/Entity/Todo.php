@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Todo
 {
+
+    const STATUS_INICIADA   = 'INICIADA';
+    const STATUS_NOINICIADA = 'SIN EMPEZAR';
+    const STATUS_FINALIZADA = 'FINALIZADA';
+
     /**
      * @var int
      *
@@ -45,11 +50,15 @@ class Todo
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string", length=50)
+     * @ORM\Column(name="estado", type="string", length=50, columnDefinition="ENUM('INICIADA', 'FINALIZADA', SIN EMPEZAR)")
      */
     private $estado;
 
-
+    public function __construct()
+    {
+        $this->fechaCreacion = new \DateTime();
+    }
+    
     /**
      * Get id
      *
@@ -141,7 +150,12 @@ class Todo
      */
     public function setEstado($estado)
     {
-        $this->estado = $estado;
+
+        if (!in_array($estado, array(self::STATUS_INICIADA, self::STATUS_NOINICIADA, self::STATUS_FINALIZADA))) {
+            throw new \InvalidArgumentException("Invalid status");
+        }
+        $this->estado = $estado;        
+        // $this->estado = $estado;
 
         return $this;
     }
