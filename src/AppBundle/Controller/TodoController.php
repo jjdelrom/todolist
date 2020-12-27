@@ -72,7 +72,7 @@ class TodoController extends Controller
 
                 $texto = 'ID USUARIO: '.$usuarioLogado->getId().' // ID TAREA: '.$task->getId();
                 $this->logger->log(self::NEW_TASK, $texto, $archivo);                  
-                
+        
                 $this->addFlash('success', 'registro.creado.correctamente' );
             }
         }catch (Exception $ex) {

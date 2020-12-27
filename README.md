@@ -1,4 +1,4 @@
-Symfony Standard Edition
+APP TODO LIST
 ========================
 
 Welcome to the Symfony Standard Edition - a fully-functional Symfony
