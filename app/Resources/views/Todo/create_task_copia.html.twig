@@ -1,18 +1,18 @@
 {% extends 'base_menu.html.twig' %}
 
 
-{% block title %}{% trans %}editar.tarea{% endtrans %}{% endblock %}
+{% block title %}{% trans %}crear.tarea{% endtrans %}{% endblock %}
 {% block head %}
   {{ parent() }}
 {% endblock %}
 {% block pageContent %}
-<div class="loader"></div>  {# loader #}
+{# <div class="loader"></div>  {# loader #} #}
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>{% trans %}editar.tarea{% endtrans %}</h3>
+                <h3>{% trans %}crear.tarea{% endtrans %}</h3>
               </div>
 
                 <form action="#">
@@ -38,7 +38,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>{% trans %}formulario {% endtrans %} <small>{% trans %}editar.tarea{% endtrans %}</small></h2>
+                    <h2>{% trans %}formulario {% endtrans %} <small>{% trans %}crear.tarea{% endtrans %}</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -56,11 +56,6 @@
                          {{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
                         <span class="text-danger">{{ form_errors(form.nombre)}}</span>
                       </div>
-{#                       <div class="form-group">
-                        {{ form_label(form.fechaCreacion)}}
-                         {{ form_widget(form.fechaCreacion, { 'attr': {'class': 'form-control js-switch' } }) }}
-                        <span class="text-danger">{{ form_errors(form.fechaCreacion)}}</span>
-                      </div> #}
                       <div class="form-group">
                         {{ form_label(form.fechaTope)}}
                          {{ form_widget(form.fechaTope, { 'attr': {'class': '' } }) }}
@@ -123,7 +118,6 @@
                 </thead>
                 <tbody>
                 {% for task in tasks %}
-
                   <tr>
                         {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
                           <td>{{ task.user.username }}</td>
@@ -170,7 +164,7 @@
                 <tr>
                   {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
                     <th>{% trans %}usuario{% endtrans %}</th>
-                  {% endif %}
+                  {% endif %}                
                   <th>{% trans %}nombre{% endtrans %}</th>
                   <th>{% trans %}fecha.creacion{% endtrans %}</th>
                   <th>{% trans %}fecha.tope{% endtrans %}</th>
@@ -190,12 +184,14 @@
           </div>
         </div>
         <!-- page content -->
-{% endblock %}
 
+
+{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
 
 {% endblock %}
+
 
 

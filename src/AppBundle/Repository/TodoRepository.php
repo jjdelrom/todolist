@@ -10,4 +10,18 @@ namespace AppBundle\Repository;
  */
 class TodoRepository extends \Doctrine\ORM\EntityRepository
 {
+		public function getTaskNoFinish($idUsuario)	{
+
+			try {
+	            $em  = $this->getEntityManager();
+	            $stmt = $em->getConnection()->prepare("SELECT * FROM `todo` WHERE estado <> 'FINALIZADA' AND user_id = :idUsuario");
+	            $stmt->bindParam(':idUsuario',$idUsuario);
+	            $stmt->execute();
+			    $res = $stmt->fetchAll();
+			    return $res;
+		    } catch (\Doctrine\ORM\NoResultException $exception) {
+		        return null;
+		    }
+		//	return $res;
+		}	
 }

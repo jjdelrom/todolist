@@ -26,32 +26,14 @@ class UserType extends AbstractType
     {
         $builder->add('username',TextType::class, array('required' => true, 'label' => 'nombre.usuario'))
         ->add('password',PasswordType::class, array('required' => true, 'label' => 'password'))
-       // ->add('password',TextType::class)
         ->add('nombre',TextType::class,array('required' => true, 'label' => 'nombre'))
         ->add('apellidos',TextType::class,array('required' => true, 'label' => 'apellidos'))
-/*
->add('idFkRolSistema',EntityType::class, array(
-                    'class'=> 'AppBundle:RolSistema',
-                    'label'=> 'Rol *',
-                    'placeholder' => 'Seleccionar' ,
-                    'choice_label'=> 'nombre'
-                ))
-        ->add('roles', ChoiceType::class, array(
-                    'choices' => array(
-                        'Annuel' => true,
-                        'Itérmidaire' => false,
-            )))*/
- /*       ->add('roles', 'choice', array(
-            'required' => true,
-            'choices' => MessageTypeEnum::getAvailableTypes(),
-            'choices_as_values' => true,
-            'choice_label' => function($choice) {
-                return MessageTypeEnum::getTypeName($choice);
-            },
-        ))*/
+        ->add('email',EmailType::class, array('required' => true, 'label' => 'email'))
         ->add('reset',ResetType::class, array('attr' => array( 'class' => 'btn btn-success'  ), 'label' => 'reset'))
         ->add('aceptar',SubmitType::class, array('attr' => array( 'class' => 'btn btn-primary'  ), 'label' => 'aceptar'));
-    }/**
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

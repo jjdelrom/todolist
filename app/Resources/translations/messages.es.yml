@@ -31,7 +31,7 @@ mensaje.eliminar.tarea: ¿Está seguro que quiere eliminar a ?
 crear.tarea: Crear Tarea
 listar.tareas: Listas Tareas
 formulario: Formulario
-
+editar.tarea: Editar Tarea
 registro.creado.correctamente: Registro creado correctamente
 error.registro: Error al crear el registro
 registro.eliminado.correctamente: Registro eliminado correctamente
@@ -68,3 +68,7 @@ users: Usuarios
 roles: Roles
 fecha.alta: Fecha de alta
 editar.usuario: Editar Usuario
+control.usuarios: Control Usuarios
+usuarios: Usuarios
+error.usuario.existe: Ese usuario ya esta registrado con anterioridad
+email: Email

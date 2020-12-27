@@ -78,6 +78,11 @@
 							 {{ form_widget(form.apellidos, { 'attr': {'class': 'form-control'} }) }}
 							<span class="text-danger">{{ form_errors(form.apellidos)}}</span>
 						</div>
+            <div class="form-group">
+              {{ form_label(form.email)}}
+               {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+              <span class="text-danger">{{ form_errors(form.email)}}</span>
+            </div>            
 						<div class="form-group">
 						    <label for="Rol">Rol</label>
 			                		<select name="roles"  class="form-control select2" data-placeholder="Seleccione un rol" style="width: 100%;" required="">

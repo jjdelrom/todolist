@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Service;
+namespace AppBundle\Services;
 
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 

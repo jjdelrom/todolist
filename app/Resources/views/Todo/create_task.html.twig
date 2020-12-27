@@ -6,7 +6,7 @@
   {{ parent() }}
 {% endblock %}
 {% block pageContent %}
-<div class="loader"></div>  {# loader #}
+<div class="loader"></div>
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -49,18 +49,13 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-         		       {{ form_start(form, { 'enctype':"multipart/form-data",  'attr' : {'role' : 'form'} }) }}
+                   {{ form_start(form, { 'enctype':"multipart/form-data",  'attr' : {'role' : 'form'} }) }}
 
                       <div class="form-group">
                         {{ form_label(form.nombre)}}
                          {{ form_widget(form.nombre, { 'attr': {'class': 'form-control'} }) }}
                         <span class="text-danger">{{ form_errors(form.nombre)}}</span>
                       </div>
-{#                       <div class="form-group">
-                        {{ form_label(form.fechaCreacion)}}
-                         {{ form_widget(form.fechaCreacion, { 'attr': {'class': 'form-control js-switch' } }) }}
-                        <span class="text-danger">{{ form_errors(form.fechaCreacion)}}</span>
-                      </div> #}
                       <div class="form-group">
                         {{ form_label(form.fechaTope)}}
                          {{ form_widget(form.fechaTope, { 'attr': {'class': '' } }) }}
@@ -72,27 +67,27 @@
                         <span class="text-danger">{{ form_errors(form.estado)}}</span>
                       </div>
                       <div class="ln_solid"></div>
-            					<!--  Aceptar y Reset en la misma línea  -->
-            					<div class="btn-toolbar" role="toolbar">
-            					  <div class="btn-group">
-            						<div class="btn pull-right">
-            							 {{ form_widget(form.reset)}}
-            							<span class="text-danger">{{ form_errors(form)}}</span>
-            						</div>
-            					  </div>
-            						<div class="btn pull-left">
-            							 {{ form_widget(form.aceptar)}}
-            							<span class="text-danger">{{ form_errors(form)}}</span>
-            						</div>
-            					</div><!-- # FIN Aceptar y Reset -->
-            				{{ form_end(form) }}
+                      <!--  Aceptar y Reset en la misma línea  -->
+                      <div class="btn-toolbar" role="toolbar">
+                        <div class="btn-group">
+                        <div class="btn pull-right">
+                           {{ form_widget(form.reset)}}
+                          <span class="text-danger">{{ form_errors(form)}}</span>
+                        </div>
+                        </div>
+                        <div class="btn pull-left">
+                           {{ form_widget(form.aceptar)}}
+                          <span class="text-danger">{{ form_errors(form)}}</span>
+                        </div>
+                      </div><!-- # FIN Aceptar y Reset -->
+                    {{ form_end(form) }}
 
                   </div>
                 </div>
               </div>
             </div>
 
-           <div class="row">
+{#            <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -123,7 +118,6 @@
                 </thead>
                 <tbody>
                 {% for task in tasks %}
-
                   <tr>
                         {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
                           <td>{{ task.user.username }}</td>
@@ -183,7 +177,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> #}
 
 
 

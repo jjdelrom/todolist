@@ -26,12 +26,13 @@ function f3(){
 }
 
 function enviarFormularioRegistro(){
+    var email = $('#email2').val();
     var nombre_usuario = $('#nombre_usuario').val();
     var pass = $('#pass').val();
     var nombre = $('#nombre').val();
     var apellidos = $('#apellidos').val();
 
-    if( nombre_usuario != '' || pass != '' || nombre != '' || apellidos != '' ){
+    if( email != '' || nombre_usuario != '' || pass != '' || nombre != '' || apellidos != '' ){
         $('#formulario3').attr('action', '/registro');
         $('#formulario3').submit();
     }
@@ -132,21 +133,25 @@ function enviarFormularioRegistro(){
 
                       <div class="form-group has-feedback ">
                         <input type="text" class="form-control" placeholder="Nombre usuario *" id="nombre_usuario" name="nombre_usuario" required="required">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
                       </div>
 
                       <div class="form-group has-feedback ">
                         <input type="pass" class="form-control" placeholder="Password *" id="pass" name="pass" required="required">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                       </div>
                       <div class="form-group has-feedback ">
                         <input type="text" class="form-control" placeholder="Nombre *" id="nombre" name="nombre"  required="required">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
                       </div>
                       <div class="form-group has-feedback ">
                         <input type="text" class="form-control" placeholder="Apellidos *" id="apellidos" name="apellidos" required="required">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
                       </div>
+                      <div class="form-group has-feedback ">
+                        <input type="email" class="form-control" placeholder="Email *" id="email2" name="email2"  required="required">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                      </div>                      
                     <div>
                         <button type="reset"  class="f3" onclick="f2()">Volver al login</button>
 

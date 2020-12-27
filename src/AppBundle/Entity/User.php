@@ -33,7 +33,7 @@ class User implements UserInterface
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(
-     *      min = "8",
+     *      min = "3",
      *      max = "15",
      * )
      */
@@ -62,6 +62,14 @@ class User implements UserInterface
      * )
      */
     private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=true, unique=true)
+     * @Assert\Email()
+     */
+    private $email;
 
     /**
      * @var string
@@ -176,6 +184,30 @@ class User implements UserInterface
         return $this->nombre;
     }
 
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Usuario
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    
     /**
      * Set password
      *

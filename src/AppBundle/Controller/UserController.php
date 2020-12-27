@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use AppBundle\Form\UserType;
+use AppBundle\Services\LoggerCustom;
+
 
 /**
  * Lógica de todas las pantallas relacionadas con el apartado de usuarios.
@@ -26,10 +28,16 @@ class UserController extends Controller
 
     private $em;
     private $user;
+    private $logger;
 
-    public function __construct(EntityManagerInterface $em) {
+    const NEW_USER    = 'NUEVO  USUARIO';
+    const EDIT_USER   = 'EDITAR USUARIO';
+    const REMOVE_USER = 'ELIMINAR USUARIO';
+
+    public function __construct(EntityManagerInterface $em, LoggerCustom $logger) {
         $this->em = $em;
         $this->user = new User();
+        $this->logger = new LoggerCustom();
     } 
 
     public function registroAction(Request $request, ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder){
@@ -44,6 +52,8 @@ class UserController extends Controller
             $pass           = $request->request->get('pass');
             $nombre         = $request->request->get('nombre');
             $apellidos      = $request->request->get('apellidos');
+            $email          = $request->request->get('email2');
+
 
             if($nombre_usuario == "" || $pass == "" || $nombre == "" || $apellidos == ""){
                 $mensaje = "FALTA ALGUN CAMPO";
@@ -51,9 +61,12 @@ class UserController extends Controller
 
                 $rep = $this->em->getRepository('AppBundle:User');
                 $usuarioExiste = $rep->findOneBy(array('username' => $nombre_usuario ));
+                $emailExiste   = $rep->findOneBy(array('email' => $email));
 
                 if(isset($usuarioExiste)){
                     $mensaje = 'USUARIO EXISTE';
+                }elseif(isset($emailExiste)){
+                    $mensaje = 'EMAIL EXISTE';
                 }else{
 
                     $usuario = new User();
@@ -64,6 +77,7 @@ class UserController extends Controller
                     $usuario->setUsername($nombre_usuario);
                     $usuario->setNombre($nombre);
                     $usuario->setApellidos($apellidos);
+                    $usuario->setEmail($email);
                     $password = $passwordEncoder->encodePassword($usuario, $pass);
                     $usuario->setPassword($password);
 
@@ -89,6 +103,7 @@ class UserController extends Controller
         try{
 
             $usuarioLogado = $this->getuser();
+            $archivo = $this->container->getParameter('kernel.root_dir').'\log\log_users.txt';
             if(in_array('ROLE_ADMIN',$usuarioLogado->getRoles())){
                 $usuario = new User();
                 $errors = $validator->validate($usuario);
@@ -103,17 +118,29 @@ class UserController extends Controller
                     $password = $passwordEncoder->encodePassword($usuario, $usuario->getPassword());
                     $usuario->setPassword($password);
 
-                    $usuarioExiste = $this->em->getRepository('AppBundle:User')->findByUsername($usuario->getusername());
+                    $usuarioExiste = $this->em->getRepository('AppBundle:User')->findByUsername($usuario->getUsername());
+                    $emailExiste   = $this->em->getRepository('AppBundle:User')->findByEmail($usuario->getEmail());
+
                     if(isset($usuarioExiste[0])){
-                          $usuario = $this->em->getRepository('AppBundle:User')->find($usuarioExiste[0]->getId());
+                        $this->addFlash('danger', 'error.usuario.existe' );
+                          // $usuario = $this->em->getRepository('AppBundle:User')->find($usuarioExiste[0]->getId());
+                    }else if(isset($emailExiste[0])){
+                        $this->addFlash('danger', 'error.email.existe' );
+                    }else{
+
+                        $this->em->persist($usuario);
+                        $this->em->flush();
+
+                        $texto = 'ID USUARIO: '.$usuarioLogado->getId().' // ID NUEVO USUARIO: '.$usuario->getId();
+                        $this->logger->log(self::NEW_USER, $texto, $archivo);  
+
+                        $this->addFlash('success', 'registro.creado.correctamente' );
                     }
 
-                    $this->em->persist($usuario);
-                    $this->em->flush();
-
-                    $this->addFlash('success', 'registro.creado.correctamente' );
+                    
                     $usuario = new User();
                     $form = $this->createForm(UserType::class, $usuario);
+                  
                 return $this->render('Usuario/create_user.html.twig', array('form' => $form->createView() ));
                 }
             }else{
@@ -143,41 +170,58 @@ class UserController extends Controller
 
   try{
     $usuarioLogado = $this->getuser();
-    // if($usuarioLogado->getRoles()[0] != 'ROLE_ADMIN' && $usuarioLogado->getId() != $idUsuario){
-    //     $this->addFlash('danger', 'error.sin.permiso' );
-    //     return $this->render('Inicio/inicio.html.twig');
-    // }
+    $archivo = $this->container->getParameter('kernel.root_dir').'\log\log_users.txt';
 
-   $usuario = $this->em->getRepository('AppBundle:User')->find($idUser);
-   $rolOriginal = $usuario->getRoles();
-   $form = $this->createForm(UserType::class, $usuario);
-   $form->handleRequest($request);
-
-   if($form->isSubmitted() && $form->isValid()){
-        $roles = $request->request->get('roles');
-        if(!$roles){
-            $usuario->setRoles($rolOriginal[0]);
-        }else{
-            $usuario->setRoles($roles);
-        }
-
-        $usuario = $form->getData();
-        $password = $passwordEncoder->encodePassword($usuario, $usuario->getPassword());
-        $usuario->setPassword($password);
-
-        $this->em->persist($usuario);
-        $this->em->flush();
-        $this->addFlash('success', 'registro.modificado.correctamente' );
+   if($usuarioLogado->getId() == $idUser || $usuarioLogado->getRoles()[0] == 'ROLE_ADMIN'){
 
 
-        if($usuarioLogado->getRoles()[0] == 'ROLE_ADMIN'){
-            return $this->redirectToRoute('show_users');
-        }
-        else{
-            return $this->redirectToRoute('edit_user' , array('idUser' => $usuarioLogado->getId()));
-        }
-   }
+       $usuario = $this->em->getRepository('AppBundle:User')->find($idUser);
+       $rolOriginal = $usuario->getRoles();
+       $form = $this->createForm(UserType::class, $usuario);
+       $form->handleRequest($request);
 
+       if($form->isSubmitted() && $form->isValid()){
+            $roles = $request->request->get('roles');
+        
+            $usuarioExiste = $this->em->getRepository('AppBundle:User')->findByUsername($usuario->getUsername());
+            $emailExiste   = $this->em->getRepository('AppBundle:User')->findByEmail($usuario->getEmail());
+
+            if(isset($usuarioExiste[0])){
+                $this->addFlash('danger', 'error.usuario.existe' );
+            }else if(isset($emailExiste[0])){
+                $this->addFlash('danger', 'error.email.existe' );
+            }else{
+
+
+                if(!$roles){
+                    $usuario->setRoles($rolOriginal[0]);
+                }else{
+                    $usuario->setRoles($roles);
+                }
+
+                $usuario = $form->getData();
+                $password = $passwordEncoder->encodePassword($usuario, $usuario->getPassword());
+                $usuario->setPassword($password);
+    
+                $this->em->persist($usuario);
+                $this->em->flush();
+                $this->addFlash('success', 'registro.modificado.correctamente' );
+    
+                $texto = 'ID USUARIO: '.$usuarioLogado->getId().' // ID USUARIO EDITADO: '.$usuario->getId();
+                $this->logger->log(self::EDIT_USER, $texto, $archivo);
+            }
+
+            if($usuarioLogado->getRoles()[0] == 'ROLE_ADMIN'){
+                // return $this->redirectToRoute('show_users');
+                return $this->redirectToRoute('edit_user' , array('idUser' => $idUser));
+            }
+            else{
+                return $this->redirectToRoute('edit_user' , array('idUser' => $usuarioLogado->getId()));
+            }
+       }
+    } else{
+        $this->addFlash('danger', 'error.sin.permiso' );
+    }
   }
   catch(Excepcition $ex){
    echo 'Excepción capturada: ',  $ex->getMessage(), "\n";

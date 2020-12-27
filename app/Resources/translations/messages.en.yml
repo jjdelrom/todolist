@@ -31,7 +31,7 @@ mensaje.eliminar.tarea: Are you sure you want to delete to ?
 crear.tarea: Create Task
 listar.tareas: Show Tasks
 formulario: Form
-
+editar.tarea: Edit Task
 registro.creado.correctamente: Registry successfully created
 error.registro: Error creating record
 registro.eliminado.correctamente: Registry successfully remove
@@ -67,6 +67,11 @@ users: Users
 roles: Roles
 fecha.alta: Register date
 editar.usuario: Edit User
+control.usuarios: Users control
+usuarios: Users
+error.usuario.existe: That user is already registered
+
+email: Email
 
 
 

@@ -15,7 +15,7 @@
 	              </div>
 	              <div class="profile_info">
 	                <span>{% trans %}bienvenido{% endtrans %},</span>
-	                <h2> app.user.nombre   app.user.apellidos  {#{ app.user.roles[0] }#}</h2>
+	                <h2> {{app.user.username }}  {#{ app.user.roles[0] }#}</h2>
 	              </div>
 	            </div>
 	            <!-- /menu profile quick info -->
@@ -27,25 +27,21 @@
                 <a href="#" class="menu_section" font size="17"><b><font size="4">{% trans %}opciones{% endtrans %} </font></b></a>
               </div>
        <br>
-             <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a href="#"><i class="fa fa-user"></i> Perfil Usuario <span class="fa fa-hand-o-right"></span></a>
-                  </li>
-                </ul>
-              </div>
-
-
+            
+            {% if  app.user.roles[0]  == 'ROLE_ADMIN' %}
               <div class="menu_section">
-                <h3>Usuarios</h3>
+                <h3>{% trans %}control.usuarios{% endtrans %}</h3>
                 <ul class="nav side-menu">
-                  <li>
-                      <a href="#"><i class="fa fa-list-alt"></i>Mostrar Usuarios<span class="fa fa-hand-o-right"></span>
-                      </a>
+
+                 <li><a><i class="fa fa-list-alt"></i>{% trans %}usuarios{% endtrans %} <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">                  
+                      <li><a href="{{ path('create_user')}}">{% trans %}crear.usuario{% endtrans %}<span class="fa fa-plus"></span></a></li>
+                      <li><a href="{{ path('show_users')}}">{% trans %}mostrar.usuarios{% endtrans %}<span class="fa fa-hand-o-right"></span></a></li>
+                    </ul>
                   </li>
                 </ul>
               </div>
-
+            {% endif %}
               <div class="menu_section">
                 <h3>{% trans %}administrar{% endtrans %}</h3>
                 <ul class="nav side-menu">
@@ -59,13 +55,6 @@
                 </ul>
               </div>
 
-              <div class="menu_section">
-                <h3>Estadisticas</h3>
-                <ul class="nav side-menu">
-                  <li><a href="#"><i class="fa fa-bar-chart-o"></i>Mostar Estadisticas <span class="fa fa-eye"></span></a>
-                  </li>
-                </ul>
-              </div>
             </div>
 
 {#

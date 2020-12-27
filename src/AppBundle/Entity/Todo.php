@@ -1,6 +1,9 @@
 <?php
 
 namespace AppBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,7 +32,7 @@ class Todo
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=256, unique=true)
+     * @ORM\Column(name="nombre", type="string", length=256)
      */
     private $nombre;
 

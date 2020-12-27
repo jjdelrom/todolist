@@ -12,9 +12,9 @@ services:
         autoconfigure: true
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
-        public: false
-        bind: 
-            $projectDir: '%kernel.project_dir%'
+        public: true
+        # bind: 
+        #     $projectDir: '%kernel.project_dir%'
 
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -37,4 +37,10 @@ services:
     #         $someArgument: 'some_value'
 
     appbundle.md5password.encoder:
-        class: AppBundle\Service\CustomMd5PasswordEncoder
+        class: AppBundle\Services\CustomMd5PasswordEncoder
+
+    appbundle.logger:
+        class: AppBundle\Services\loggerCustom
+  
+    appbundle.mailer:
+        class: AppBundle\Services\Mailer
